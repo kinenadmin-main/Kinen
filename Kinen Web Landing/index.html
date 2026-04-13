@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KINEN – Everytime. Everywhere.</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1b2e;
+    --navy-light: #112240;
+    --gold: #f5c842;
+    --orange: #e87c30;
+    --red-btn: #e05b3a;
+    --teal-accent: #3ec9a7;
+    --white: #ffffff;
+    --text-muted: #a0aec0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 5%;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .logo-text h1 {
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  .logo-text span {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    width: 24px;
+    height: 2.5px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+
+  /* mobile nav */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: var(--navy-light);
+    padding: 1rem 5%;
+    gap: 1rem;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 4rem 5% 3rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-image {
+    flex: 1 1 340px;
+    max-width: 480px;
+  }
+
+  .hero-image .frame {
+    background: #f5e6d3;
+    border-radius: 18px;
+    padding: 28px 24px 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 320px;
+  }
+
+  .hero-image .frame::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 5px;
+    background: #c8b89a;
+    border-radius: 3px;
+  }
+
+  .hero-img-placeholder {
+    width: 100%;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* coin/wallet illustration via CSS */
+  .illustration {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    padding: 16px;
+  }
+
+  .illus-phone {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+
+  .illus-phone .k-logo {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, #1a6fa8, #e05b3a);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 900;
+    font-size: 1.1rem;
+  }
+
+  .illus-phone p {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #1a2a4a;
+    letter-spacing: 1.5px;
+  }
+
+  .illus-phone small {
+    font-size: 0.5rem;
+    color: #6b7280;
+    letter-spacing: 1px;
+  }
+
+  .illus-coins {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .coin {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+
+  .coin-gold { background: #d4a017; width: 44px; height: 44px; }
+  .coin-blue { background: #2563eb; width: 36px; height: 36px; }
+  .coin-teal { background: #0f766e; width: 30px; height: 30px; }
+
+  .heart-bubble {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: white;
+    border-radius: 12px 12px 12px 2px;
+    padding: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .heart-bubble svg { width: 32px; height: 32px; fill: #2563eb; }
+
+  /* ── HERO TEXT ── */
+  .hero-text {
+    flex: 1 1 320px;
+    max-width: 600px;
+  }
+
+  .hero-text .subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .hero-text h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.6rem;
+    color: var(--white);
+  }
+
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 1.8rem;
+  }
+
+  .pill {
+    padding: 0.65rem 1.4rem;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.88rem;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+
+  .pill:hover { transform: translateY(-2px); opacity: 0.9; }
+  .pill:active { transform: scale(0.97); }
+
+  .pill-gold { background: var(--gold); color: #3a2a00; }
+  .pill-orange { background: var(--orange); color: var(--white); }
+  .pill-red { background: var(--red-btn); color: var(--white); }
+
+  .tagline {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .tagline .highlight { color: var(--teal-accent); }
+
+  /* ── SOCIAL SECTION ── */
+  .social-section {
+    padding: 2.5rem 5%;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .social-section h3 {
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .social-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    transition: transform 0.15s, opacity 0.2s;
+  }
+
+  .social-btn:hover { transform: scale(1.1); opacity: 0.9; }
+  .social-btn.fb { background: #1877f2; }
+  .social-btn.yt { background: #ff0000; }
+  .social-btn.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+  .social-btn.tw { background: #1da1f2; }
+  .social-btn.li { background: #0a66c2; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 1.5rem 5%;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ── POPUP OVERLAY ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay.show { display: flex; }
+
+  .popup {
+    background: var(--navy-light);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.25s ease;
+  }
+
+  @keyframes popIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .popup-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .popup h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+
+  .popup p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .popup p strong {
+    color: var(--teal-accent);
+  }
+
+  .popup-close {
+    margin-top: 1.4rem;
+    background: var(--gold);
+    color: #3a2a00;
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+
+  .popup-close:hover { opacity: 0.85; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { flex-direction: column; padding: 2.5rem 5% 2rem; text-align: center; }
+    .hero-image { max-width: 100%; }
+    .pill-row { justify-content: center; }
+    .tagline { text-align: center; }
+  }
+
+  @media (min-width: 769px) {
+    .hamburger { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <svg class="logo-icon" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="44" height="44" rx="10" fill="#112240"/>
+      <path d="M10 10 L10 34 L18 34 L18 24 L26 34 L34 34 L24 21 L33 10 L25 10 L18 19 L18 10 Z" fill="url(#kg)"/>
+      <defs>
+        <linearGradient id="kg" x1="10" y1="10" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#3ec9a7"/>
+          <stop offset="100%" stop-color="#1a6fa8"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="logo-text">
+      <h1>KINEN</h1>
+      <span>Everytime. Everywhere.</span>
+    </div>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#contact" onclick="showPopup()">Contact</a></li>
+  </ul>
+
+  <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home">Home</a>
+  <a href="#about">About Us</a>
+  <a href="#contact" onclick="showPopup(); toggleMenu();">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-image">
+    <div class="frame">
+      <div class="hero-img-placeholder">
+        <div class="illustration">
+          <!-- Phone mockup -->
+          <div class="illus-phone">
+            <div class="k-logo">K</div>
+            <p>KINEN</p>
+            <small>EVERYTIME. EVERYWHERE.</small>
+          </div>
+          <!-- Coins -->
+          <div class="illus-coins">
+            <div class="coin coin-gold">₿</div>
+            <div class="coin coin-blue">$</div>
+            <div class="coin coin-teal">৳</div>
+          </div>
+        </div>
+        <!-- Heart bubble -->
+        <div class="heart-bubble">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-text">
+    <p class="subtitle">Bangladesh's First All-in-One</p>
+    <h2>Social Commerce Platform</h2>
+
+    <div class="pill-row">
+      <button class="pill pill-gold" onclick="showPopup()">SHOPPING</button>
+      <button class="pill pill-orange" onclick="showPopup()">LIFESTYLE</button>
+      <button class="pill pill-red" onclick="showPopup()">FINANCIAL SERVICES</button>
+    </div>
+
+    <p class="tagline">
+      Creating Moments <span class="highlight">worth Remembering</span>
+    </p>
+  </div>
+</section>
+
+<!-- SOCIAL SECTION -->
+<section class="social-section" id="about">
+  <h3>Follow us on</h3>
+  <div class="social-icons">
+    <button class="social-btn fb" onclick="showPopup()" title="Facebook">f</button>
+    <button class="social-btn yt" onclick="showPopup()" title="YouTube">▶</button>
+    <button class="social-btn ig" onclick="showPopup()" title="Instagram">◈</button>
+    <button class="social-btn tw" onclick="showPopup()" title="Twitter / X">𝕏</button>
+    <button class="social-btn li" onclick="showPopup()" title="LinkedIn">in</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <p>&copy; 2026 KINEN. Everytime. Everywhere. &nbsp;·&nbsp; Bangladesh's First All-in-One Social Commerce Platform</p>
+</footer>
+
+<!-- POPUP OVERLAY -->
+<div class="overlay" id="overlay" onclick="hidePopup(event)">
+  <div class="popup">
+    <div class="popup-icon">🛵</div>
+    <h3>We're on our way!</h3>
+    <p>Please wait — we are <strong>swinging near you soon</strong>.<br/>KINEN is launching across Bangladesh. Stay tuned!</p>
+    <button class="popup-close" onclick="hidePopup()">Got it!</button>
+  </div>
+</div>
+
+<script>
+  function showPopup() {
+    document.getElementById('overlay').classList.add('show');
+  }
+
+  function hidePopup(e) {
+    if (!e || e.target === document.getElementById('overlay') || e.currentTarget.classList.contains('popup-close')) {
+      document.getElementById('overlay').classList.remove('show');
+    }
+  }
+
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hidePopup();
+  });
+</script>
+</body>
+</html>
